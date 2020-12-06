@@ -17,12 +17,15 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
           child: Column(children: [
             _buildHeaderBar(),
+            SizedBox(height: 70.0),
+            _buildHeaderText(),
           ]),
         ),
       ),
     );
   }
 
+  /* START HEADER BAR */
   Widget _buildHeaderBar() {
     double containerSize = 55.0;
 
@@ -68,6 +71,19 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
                 BorderRadius.only(bottomLeft: borderRadius, topRight: borderRadius, bottomRight: borderRadius),
           ),
           child: Image(image: AssetImage('assets/images/dribbble_game_streaming_app.png'))),
+    );
+  }
+
+  /* END HEADER BAR */
+
+  /* START HEADER TEXT */
+  Widget _buildHeaderText() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text('What would', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold)),
+        Text('you like to Play?', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w300)),
+      ],
     );
   }
 }
