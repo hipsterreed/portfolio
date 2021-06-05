@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class GameStreamingApp extends StatefulWidget {
   GameStreamingApp({Key key}) : super(key: key);
@@ -8,25 +9,57 @@ class GameStreamingApp extends StatefulWidget {
 }
 
 class _GameStreamingAppState extends State<GameStreamingApp> {
+  PageController pageController;
+  double pageOffset = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: 1, keepPage: true, viewportFraction: 0.43);
+    pageController.addListener(() {
+      setState(() => pageOffset = pageController.page);
+    });
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    const double horizontalPadding = 30.0;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        body: SingleChildScrollView(
           child: Column(children: [
-            _buildHeaderBar(),
+            SizedBox(height: 10.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: _buildHeaderBarWidget(),
+            ),
             SizedBox(height: 70.0),
-            _buildHeaderText(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: _buildHeaderTextWidget(),
+            ),
+            SizedBox(height: 35.0),
+            _buildGameListWidget(),
+            SizedBox(height: 35.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: _buildLiveChannelList(),
+            ),
           ]),
         ),
       ),
     );
   }
 
-  /* START HEADER BAR */
-  Widget _buildHeaderBar() {
+  /* START HEADER BAR WIDGET */
+  Widget _buildHeaderBarWidget() {
     double containerSize = 55.0;
 
     return Row(
@@ -63,27 +96,139 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
     Radius borderRadius = Radius.circular(15.0);
     return InkWell(
       child: Container(
-          width: containerSize,
-          height: containerSize,
-          decoration: BoxDecoration(
-            color: const Color(0xffc9e088),
-            borderRadius:
-                BorderRadius.only(bottomLeft: borderRadius, topRight: borderRadius, bottomRight: borderRadius),
-          ),
-          child: Image(image: AssetImage('assets/images/dribbble_game_streaming_app.png'))),
+        width: containerSize,
+        height: containerSize,
+        decoration: BoxDecoration(
+          color: const Color(0xffc9e088),
+          borderRadius: BorderRadius.only(bottomLeft: borderRadius, topRight: borderRadius, bottomRight: borderRadius),
+        ),
+        child: Image(image: AssetImage('assets/images/dribbble_game_streaming_app.png')),
+      ),
     );
   }
 
-  /* END HEADER BAR */
+  /* END HEADER BAR WIDGET */
 
-  /* START HEADER TEXT */
-  Widget _buildHeaderText() {
+  /* START HEADER TEXT WIDGET */
+  Widget _buildHeaderTextWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('What would', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold)),
+        Text('What woulds', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold)),
         Text('you like to Play?', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w300)),
       ],
     );
   }
+
+  /* END HEADER TEXT WIDGET */
+
+  /* START GAMES LIST WIDGET */
+  Widget _buildGameListWidget() {
+    List<Map<String, dynamic>> games = [
+      {'name': 'Puzzle', 'color': Color(0xffcdfffe), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'Racing', 'color': Color(0xffeee9ff), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+    ];
+    return SizedBox(
+      height: 200.0,
+      child: PageView(
+        controller: pageController,
+        children: games.map((game) => _buildGameCard(game)).toList(),
+      ),
+    );
+  }
+
+  Widget _buildGameCard(Map<String, dynamic> game) {
+    return Card(
+      color: game['color'],
+      margin: EdgeInsets.only(left: 8, right: 8, bottom: 10),
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        children: <Widget>[
+          Image.asset(game['imagePath'], height: 60.0),
+          SizedBox(height: 8),
+          Expanded(
+              child: Text(
+            game['name'],
+            style: TextStyle(fontWeight: FontWeight.bold),
+          )),
+        ],
+      ),
+    );
+  }
+  /* END GAMES LIST WIDGET */
+
+  /* START LIVE CHANNEL LIST WIDGET */
+  Widget _buildLiveChannelList() {
+    List<Map<String, dynamic>> liveChannels = [
+      {'name': 'Jungmin123', 'viewCount': '89.4K', 'loves': '12k'},
+      {'name': 'PetStory234', 'viewCount': '2309', 'loves': '237'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
+    ];
+
+    return Container(
+      child: Column(
+        children: liveChannels.map((channel) => _buildLiveChannelRow(channel)).toList(),
+      ),
+    );
+  }
+
+  Widget _buildLiveChannelRow(Map<String, dynamic> liveChannel) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          _buildTrailingHeaderButton(55.0),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+            child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Row(
+                  children: [
+                    Text(liveChannel['name'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 20.0,
+                      height: 20.0,
+                      decoration: BoxDecoration(
+                        color: const Color(0xffebeafe),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Icon(
+                        Icons.public,
+                        size: 14.0,
+                        color: Color(0xff9b91fb),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Text(
+                      '${liveChannel["viewCount"]} Views',
+                      style: TextStyle(color: Color(0xffa19fa8), fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ),
+            ]),
+          )
+        ],
+      ),
+    );
+  }
+  /* END LIVE CHANNEL LIST WIDGET */
 }
