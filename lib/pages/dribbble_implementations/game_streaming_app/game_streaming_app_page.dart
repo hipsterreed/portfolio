@@ -196,7 +196,34 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
 
     return Container(
       child: Column(
-        children: liveChannels.map((channel) => _buildLiveChannelRow(channel)).toList(),
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 30.0,
+                height: 30.0,
+                decoration: BoxDecoration(
+                  color: const Color(0xffebeafe),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.public,
+                  size: 20.0,
+                  color: Color(0xff9b91fb),
+                ),
+              ),
+              SizedBox(width: 10.0),
+              Text(
+                'Live Now',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Column(
+            children: liveChannels.map((channel) => _buildLiveChannelRow(channel)).toList(),
+          ),
+        ],
       ),
     );
   }
