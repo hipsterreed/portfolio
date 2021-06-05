@@ -188,43 +188,83 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
           _buildTrailingHeaderButton(55.0),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-            child: Column(children: [
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  children: [
-                    Text(liveChannel['name'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 20.0,
-                      height: 20.0,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffebeafe),
-                        borderRadius: BorderRadius.circular(5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    children: [
+                      Text(liveChannel['name'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
+                      SizedBox(width: 20.0),
+                      Container(
+                        width: 45.0,
+                        height: 18.0,
+                        decoration: BoxDecoration(
+                          color: const Color(0xffff5cac),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Row(children: [
+                          SizedBox(width: 11),
+                          Text('LIVE',
+                              style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: Colors.white)),
+                        ]),
                       ),
-                      child: Icon(
-                        Icons.public,
-                        size: 14.0,
-                        color: Color(0xff9b91fb),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    Text(
-                      '${liveChannel["viewCount"]} Views',
-                      style: TextStyle(color: Color(0xffa19fa8), fontWeight: FontWeight.w500),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ]),
+                SizedBox(height: 6.0),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 20.0,
+                            height: 20.0,
+                            decoration: BoxDecoration(
+                              color: const Color(0xffebeafe),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Icon(
+                              Icons.public,
+                              size: 14.0,
+                              color: Color(0xff9b91fb),
+                            ),
+                          ),
+                          SizedBox(width: 6.0),
+                          Text(
+                            '${liveChannel["viewCount"]} Views',
+                            style: TextStyle(color: Color(0xffa19fa8), fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                      SizedBox(width: 20.0),
+                      Row(
+                        children: [
+                          Container(
+                            width: 20.0,
+                            height: 20.0,
+                            decoration: BoxDecoration(
+                              color: const Color(0xfffdb3d2),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Icon(Icons.favorite, size: 14.0, color: Colors.white),
+                          ),
+                          SizedBox(width: 6.0),
+                          Text(
+                            '${liveChannel["loves"]} Loves',
+                            style: TextStyle(color: Color(0xffa19fa8), fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
