@@ -40,7 +40,7 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
               padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
               child: _buildHeaderBarWidget(),
             ),
-            SizedBox(height: 70.0),
+            SizedBox(height: 50.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
               child: _buildHeaderTextWidget(),
@@ -125,15 +125,15 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
   /* START GAMES LIST WIDGET */
   Widget _buildGameListWidget() {
     List<Map<String, dynamic>> games = [
-      {'name': 'Puzzle', 'color': Color(0xffcdfffe), 'imagePath': 'assets/images/power_teal.png'},
-      {'name': 'Racing', 'color': Color(0xffeee9ff), 'imagePath': 'assets/images/power_teal.png'},
-      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
-      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
-      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
-      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
-      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
-      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
-      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'Puzzle', 'level': '14', 'color': Color(0xffcdfffe), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'Racing', 'level': '2', 'color': Color(0xffeee9ff), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'level': '2', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'level': '2', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'level': '2', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'level': '2', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'level': '2', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'level': '2', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'level': '2', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
     ];
 
     return Carousel(
@@ -163,13 +163,17 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: <Widget>[
+            SizedBox(height: 40.0),
             Image.asset(game['imagePath'], height: 60.0),
-            SizedBox(height: 8),
-            Expanded(
-                child: Text(
-              game['name'],
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
+            SizedBox(height: 25.0),
+            Text(game['name'], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            SizedBox(height: 5),
+            Text("Level ${game['level']}",
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff718b95),
+                )),
           ],
         ),
       ),
