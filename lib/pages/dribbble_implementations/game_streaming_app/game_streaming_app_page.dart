@@ -15,7 +15,7 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: 1, keepPage: true, viewportFraction: 0.43);
+    pageController = PageController(initialPage: 0, keepPage: true, viewportFraction: 0.43);
     pageController.addListener(() {
       setState(() => pageOffset = pageController.page);
     });
@@ -114,7 +114,7 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('What woulds', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold)),
+        Text('What would', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold)),
         Text('you like to Play?', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w300)),
       ],
     );
@@ -129,32 +129,49 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
       {'name': 'Racing', 'color': Color(0xffeee9ff), 'imagePath': 'assets/images/power_teal.png'},
       {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
       {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'FPS', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
     ];
-    return SizedBox(
-      height: 200.0,
-      child: PageView(
-        controller: pageController,
-        children: games.map((game) => _buildGameCard(game)).toList(),
-      ),
+
+    return Carousel(
+      height: 210,
+      items: games,
+      builderFunction: (context, item) {
+        return _buildGameCard(item);
+      },
     );
+
+    // return SizedBox(
+    //   height: 220.0,
+    //   child: PageView(
+    //     controller: pageController,
+    //     children: games.map((game) => _buildGameCard(game)).toList(),
+    //   ),
+    // );
   }
 
   Widget _buildGameCard(Map<String, dynamic> game) {
-    return Card(
-      color: game['color'],
-      margin: EdgeInsets.only(left: 8, right: 8, bottom: 10),
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        children: <Widget>[
-          Image.asset(game['imagePath'], height: 60.0),
-          SizedBox(height: 8),
-          Expanded(
-              child: Text(
-            game['name'],
-            style: TextStyle(fontWeight: FontWeight.bold),
-          )),
-        ],
+    return Container(
+      width: 170.0,
+      child: Card(
+        color: game['color'],
+        margin: EdgeInsets.only(left: 8, right: 8, bottom: 10),
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          children: <Widget>[
+            Image.asset(game['imagePath'], height: 60.0),
+            SizedBox(height: 8),
+            Expanded(
+                child: Text(
+              game['name'],
+              style: TextStyle(fontWeight: FontWeight.bold),
+            )),
+          ],
+        ),
       ),
     );
   }
@@ -271,4 +288,50 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
     );
   }
   /* END LIVE CHANNEL LIST WIDGET */
+}
+
+class Carousel extends StatelessWidget {
+  Carousel({
+    Key key,
+    @required this.items,
+    @required this.builderFunction,
+    @required this.height,
+    this.dividerIndent = 10,
+  }) : super(key: key);
+
+  final List<dynamic> items;
+  final double dividerIndent;
+
+  final Function(BuildContext context, dynamic item) builderFunction;
+
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      child: ListView.separated(
+          physics: PageScrollPhysics(),
+          separatorBuilder: (context, index) => Divider(
+                indent: dividerIndent,
+              ),
+          scrollDirection: Axis.horizontal,
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            Widget item = builderFunction(context, items[index]);
+            if (index == 0) {
+              return Padding(
+                child: item,
+                padding: EdgeInsets.only(left: dividerIndent),
+              );
+            } else if (index == items.length - 1) {
+              return Padding(
+                child: item,
+                padding: EdgeInsets.only(right: dividerIndent),
+              );
+            }
+            return item;
+          }),
+    );
+  }
 }
