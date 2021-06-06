@@ -61,12 +61,12 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
   /* START HEADER BAR WIDGET */
   Widget _buildHeaderBarWidget() {
     double containerSize = 55.0;
-
+    String imagePath = 'assets/images/dribbble_game_streaming_app.png';
     return Row(
       children: [
         _buildLeadingHeaderButton(containerSize),
         Spacer(),
-        _buildTrailingHeaderButton(containerSize),
+        _buildTrailingHeaderButton(containerSize, imagePath),
       ],
     );
   }
@@ -74,25 +74,25 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
   Widget _buildLeadingHeaderButton(double containerSize) {
     double containerPadding = 13.0;
     double circleIconSize = 8.0;
-    Radius borderRadius = Radius.circular(15.0);
+    Radius radius = Radius.circular(15.0);
+    BorderRadius bRadius = BorderRadius.only(topLeft: radius, topRight: radius, bottomRight: radius);
     return InkWell(
       child: Container(
         width: containerSize,
         height: containerSize,
         padding: EdgeInsets.all(containerPadding),
-        decoration: BoxDecoration(
-          color: const Color(0xffe6e3f5),
-          borderRadius: BorderRadius.only(topLeft: borderRadius, topRight: borderRadius, bottomRight: borderRadius),
-        ),
+        decoration: BoxDecoration(color: const Color(0xffe6e3f5), borderRadius: bRadius),
         child: GridView.count(
           crossAxisCount: 2,
           children: List.generate(4, (index) => Icon(Icons.circle, size: circleIconSize)),
         ),
       ),
+      customBorder: RoundedRectangleBorder(borderRadius: bRadius),
+      onTap: () => setState(() {}),
     );
   }
 
-  Widget _buildTrailingHeaderButton(double containerSize) {
+  Widget _buildTrailingHeaderButton(double containerSize, String imagePath) {
     Radius borderRadius = Radius.circular(15.0);
     return InkWell(
       child: Container(
@@ -102,7 +102,7 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
           color: const Color(0xffc9e088),
           borderRadius: BorderRadius.only(bottomLeft: borderRadius, topRight: borderRadius, bottomRight: borderRadius),
         ),
-        child: Image(image: AssetImage('assets/images/dribbble_game_streaming_app.png')),
+        child: Image(image: AssetImage(imagePath)),
       ),
     );
   }
@@ -126,7 +126,7 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
   Widget _buildGameListWidget() {
     List<Map<String, dynamic>> games = [
       {'name': 'Puzzle', 'level': '14', 'color': Color(0xffcdfffe), 'imagePath': 'assets/images/power_teal.png'},
-      {'name': 'Racing', 'level': '2', 'color': Color(0xffeee9ff), 'imagePath': 'assets/images/power_teal.png'},
+      {'name': 'Racing', 'level': '2', 'color': Color(0xffeee9ff), 'imagePath': 'assets/images/rocket_purple.png'},
       {'name': 'FPS', 'level': '2', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
       {'name': 'FPS', 'level': '2', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
       {'name': 'FPS', 'level': '2', 'color': Color(0xfffef2fb), 'imagePath': 'assets/images/power_teal.png'},
@@ -154,27 +154,32 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
   }
 
   Widget _buildGameCard(Map<String, dynamic> game) {
+    BorderRadius borderRadius = BorderRadius.circular(20.0);
     return Container(
       width: 170.0,
       child: Card(
         color: game['color'],
         margin: EdgeInsets.only(left: 8, right: 8, bottom: 10),
         elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 40.0),
-            Image.asset(game['imagePath'], height: 60.0),
-            SizedBox(height: 25.0),
-            Text(game['name'], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(height: 5),
-            Text("Level ${game['level']}",
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff718b95),
-                )),
-          ],
+        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        child: InkWell(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 40.0),
+              Image.asset(game['imagePath'], height: 60.0),
+              SizedBox(height: 25.0),
+              Text(game['name'], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              SizedBox(height: 5),
+              Text("Level ${game['level']}",
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff718b95),
+                  )),
+            ],
+          ),
+          customBorder: RoundedRectangleBorder(borderRadius: borderRadius),
+          onTap: () => setState(() {}),
         ),
       ),
     );
@@ -184,14 +189,14 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
   /* START LIVE CHANNEL LIST WIDGET */
   Widget _buildLiveChannelList() {
     List<Map<String, dynamic>> liveChannels = [
-      {'name': 'Jungmin123', 'viewCount': '89.4K', 'loves': '12k'},
-      {'name': 'PetStory234', 'viewCount': '2309', 'loves': '237'},
-      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
-      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
-      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
-      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
-      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
-      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k'},
+      {'name': 'Jungmin123', 'viewCount': '89.4K', 'loves': '12k', 'imagePath': 'assets/images/player1.png'},
+      {'name': 'PetStory234', 'viewCount': '2309', 'loves': '237', 'imagePath': 'assets/images/player2.png'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k', 'imagePath': 'assets/images/player1.png'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k', 'imagePath': 'assets/images/player1.png'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k', 'imagePath': 'assets/images/player1.png'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k', 'imagePath': 'assets/images/player1.png'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k', 'imagePath': 'assets/images/player1.png'},
+      {'name': 'FamBrosStream', 'viewCount': '89.4K', 'loves': '12k', 'imagePath': 'assets/images/player1.png'},
     ];
 
     return Container(
@@ -229,93 +234,102 @@ class _GameStreamingAppState extends State<GameStreamingApp> {
   }
 
   Widget _buildLiveChannelRow(Map<String, dynamic> liveChannel) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          _buildTrailingHeaderButton(55.0),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    children: [
-                      Text(liveChannel['name'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
-                      SizedBox(width: 20.0),
-                      Container(
-                        width: 45.0,
-                        height: 18.0,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffff5cac),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Row(children: [
-                          SizedBox(width: 11),
-                          Text('LIVE',
-                              style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: Colors.white)),
-                        ]),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 6.0),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 20.0,
-                            height: 20.0,
-                            decoration: BoxDecoration(
-                              color: const Color(0xffebeafe),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Icon(
-                              Icons.public,
-                              size: 14.0,
-                              color: Color(0xff9b91fb),
-                            ),
-                          ),
-                          SizedBox(width: 6.0),
-                          Text(
-                            '${liveChannel["viewCount"]} Views',
-                            style: TextStyle(color: Color(0xffa19fa8), fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 20.0),
-                      Row(
-                        children: [
-                          Container(
-                            width: 20.0,
-                            height: 20.0,
-                            decoration: BoxDecoration(
-                              color: const Color(0xfffdb3d2),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Icon(Icons.favorite, size: 14.0, color: Colors.white),
-                          ),
-                          SizedBox(width: 6.0),
-                          Text(
-                            '${liveChannel["loves"]} Loves',
-                            style: TextStyle(color: Color(0xffa19fa8), fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            // _buildTrailingHeaderButton(55.0, liveChannel['imagePath']),
+
+            Container(
+              height: 55.0,
+              width: 55.0,
+              child: Image(image: AssetImage(liveChannel['imagePath'])),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children: [
+                        Text(liveChannel['name'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
+                        SizedBox(width: 20.0),
+                        Container(
+                          width: 45.0,
+                          height: 18.0,
+                          decoration: BoxDecoration(
+                            color: const Color(0xffff5cac),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Row(children: [
+                            SizedBox(width: 11),
+                            Text('LIVE',
+                                style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: Colors.white)),
+                          ]),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 6.0),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 20.0,
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                color: const Color(0xffebeafe),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Icon(
+                                Icons.public,
+                                size: 14.0,
+                                color: Color(0xff9b91fb),
+                              ),
+                            ),
+                            SizedBox(width: 6.0),
+                            Text(
+                              '${liveChannel["viewCount"]} Views',
+                              style: TextStyle(color: Color(0xffa19fa8), fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: 20.0),
+                        Row(
+                          children: [
+                            Container(
+                              width: 20.0,
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                color: const Color(0xfffdb3d2),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Icon(Icons.favorite, size: 14.0, color: Colors.white),
+                            ),
+                            SizedBox(width: 6.0),
+                            Text(
+                              '${liveChannel["loves"]} Loves',
+                              style: TextStyle(color: Color(0xffa19fa8), fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
+      onTap: () => setState(() {}),
     );
   }
   /* END LIVE CHANNEL LIST WIDGET */
